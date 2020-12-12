@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "EngineeringUnitsCore";
+
+package conversion;
+
+// Conversion service definition
+service Conversion {
+    rpc GetConversion (ConversionRequest) returns (ConversionResult);
+}
+
+message ConversionRequest {
+    string from = 1;
+    double quantity = 2;
+    string to = 3;
+}
+
+message ConversionResult {
+    string unit = 1;
+    string name = 2;
+    double quantity = 3;
+}

@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using EngineeringUnitsCore.Data;
+using EngineeringUnitsCore.Data.DbInitializer;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace EngineeringUnitsCore
@@ -12,7 +10,14 @@ namespace EngineeringUnitsCore
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            using (var context = host.Services.CreateScope().ServiceProvider.GetRequiredService<EngineeringUnitsContext>())
+            {
+                Initializer.TryInitialize(context);
+            }
+            
+            host.Run();
         }
 
         // Additional configuration is required to successfully run gRPC on macOS.
