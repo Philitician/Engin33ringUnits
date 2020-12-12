@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  nginx-proxy:
+    image: nginx
+    depends_on:
+      - api
+      - engineeringunitscore
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: API/Dockerfile
+    expose:
+      - 80
+
+  engineeringunitscore:
+    image: ${DOCKER_REGISTRY-}engineeringunitscore
+    build:
+      context: .
+      dockerfile: EngineeringUnitsCore/Dockerfile
+    expose:
+      - 80
+    volumes:
+      - ./EngineeringUnitsCore/Data/poscUnits22.xml:/app/Data/poscUnits22.xml
