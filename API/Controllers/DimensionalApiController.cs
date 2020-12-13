@@ -25,7 +25,7 @@ namespace API.Controllers
             return dClasses.Notation;
         }
 
-        [HttpGet("{notation}")]
+        [HttpGet("{*notation}")]
         public async Task<IEnumerable<Unit>> GetUnitsByDimensionalClass(string notation)
         {
             Units units = await _dimensionalClassClient.GetUnitsByDimensionalClassAsync(new DimensionalClassNotation {Notation = notation});
