@@ -29,7 +29,7 @@ namespace API.Controllers
         public async Task<IEnumerable<Unit>> GetUnitsByDimensionalClass(string notation)
         {
             Units units = await _dimensionalClassClient.GetUnitsByDimensionalClassAsync(new DimensionalClassNotation {Notation = notation});
-            return units.Units_.ToList();
+            return units.Units_;
         }
     }
 }

@@ -30,6 +30,7 @@ namespace EngineeringUnitsCore
             services.AddScoped<IUnitOfMeasureAccessor, UnitOfMeasureAccessor>();
             services.AddScoped<ICustomaryUnitAccessor, CustomaryUnitAccessor>();
             services.AddScoped<IDimensionalAccessor, DimensionalAccessor>();
+            services.AddScoped<IQuantityAccessor, QuantityAccessor>();
             services.AddDbContext<EngineeringUnitsContext>(options =>
                 options.UseSqlite(_config.GetConnectionString("SqliteConnection")));
             services.AddGrpc();
@@ -49,6 +50,7 @@ namespace EngineeringUnitsCore
             {
                 endpoints.MapGrpcService<ConversionService>();
                 endpoints.MapGrpcService<DimensionalClassService>();
+                endpoints.MapGrpcService<QuantityTypeService>();
                 
                 
                 endpoints.MapGet("/",

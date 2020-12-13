@@ -6,7 +6,7 @@ namespace EngineeringUnitsCore.DLA.AccessorContracts
 {
     public interface IQuantityAccessor : IAccessorBase<QuantityType>
     {
-        public Task<List<string>> GetUnits(string qt);
+        public Task<IEnumerable<UnitOfMeasure>> GetUnits(string qt);
         
         public Task<List<string>> GetQuantityTypes();
     }

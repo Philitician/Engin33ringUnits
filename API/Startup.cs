@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using QuantityTypeGrpcService;
 
 namespace API
 {
@@ -24,10 +25,16 @@ namespace API
         {
             services.AddGrpcClient<Conversion.ConversionClient>( options =>
                 options.Address = new Uri(Configuration.GetConnectionString("EngineeringUnits")));
-            services.AddGrpcClient<DimensionalClass.DimensionalClassClient>(options =>
+            services.AddGrpcClient<DimensionalClass.DimensionalClassClient>( options =>
+                options.Address = new Uri(Configuration.GetConnectionString("EngineeringUnits")));
+            services.AddGrpcClient<QuantityType.QuantityTypeClient>(options =>
                 options.Address = new Uri(Configuration.GetConnectionString("EngineeringUnits")));
             services.AddControllers();
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "API", Version = "v1"}); });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "API", Version = "v1"});
+                c.CustomSchemaIds(type => type.ToString());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

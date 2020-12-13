@@ -20,10 +20,10 @@ namespace EngineeringUnitsCore.DLA.Accessors
             var qts = await GetAll();
             return qts.Select(qt => qt.Notation).ToList();
         }
-        public async Task<List<string>> GetUnits(string qt)
+        public async Task<IEnumerable<UnitOfMeasure>> GetUnits(string qt)
         {
             var qTypes = await Get(qt);
-            return qTypes.UnitOfMeasureQuantityTypes.Select(q => q.UnitOfMeasureId).ToList();
+            return qTypes.UnitOfMeasureQuantityTypes.Select(q => q.UnitOfMeasure);
         }
 
         public new async Task<QuantityType> Get(string id)
@@ -32,6 +32,7 @@ namespace EngineeringUnitsCore.DLA.Accessors
             qt = await Context
                 .QuantityTypes
                 .Include(q => q.UnitOfMeasureQuantityTypes)
+                .ThenInclude(x => x.UnitOfMeasure)
                 .FirstOrDefaultAsync(q => q.Notation == id);
             
             var entryOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
@@ -40,7 +41,6 @@ namespace EngineeringUnitsCore.DLA.Accessors
             Cache.Set(id, qt, entryOptions);
 
             return qt;
-            
         }
     }
 }

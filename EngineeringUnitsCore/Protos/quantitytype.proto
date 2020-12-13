@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option csharp_namespace = "QuantityTypeGrpcService";
+
+package quantitytype;
+import "google/protobuf/empty.proto";
+
+service QuantityType {
+    rpc GetAll (google.protobuf.Empty) returns (QuantityTypes);
+    rpc GetUnitsByQuantityType (QuantityTypeNotation) returns (Units);
+}
+
+message QuantityTypes {
+    repeated string notation = 1;
+}
+
+message QuantityTypeNotation {
+    string notation = 1;
+}
+
+message Units {
+    repeated Unit units = 1;
+}
+
+message Unit {
+    string id = 1;
+    string name = 2;
+}
