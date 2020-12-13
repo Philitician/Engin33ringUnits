@@ -6,11 +6,11 @@ namespace EngineeringUnitsCore.Data
     public class EngineeringUnitsContext : DbContext
     {
         public EngineeringUnitsContext(DbContextOptions options) : base(options) { }
-        public DbSet<UnitOfMeasure> UnitOfMeasures { get; set; }
-        public DbSet<CustomaryUnit> CustomaryUnits { get; set; }
-        public DbSet<DimensionalClass> DimensionalClasses { get; set; }
+        public DbSet<Entities.UnitOfMeasure> UnitOfMeasures { get; set; }
+        public DbSet<Entities.CustomaryUnit> CustomaryUnits { get; set; }
+        public DbSet<Entities.DimensionalClass> DimensionalClasses { get; set; }
         
-        public DbSet<QuantityType> QuantityTypes { get; set; }
+        public DbSet<Entities.QuantityType> QuantityTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

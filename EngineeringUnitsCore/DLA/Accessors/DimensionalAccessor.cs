@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using EngineeringUnitsCore.Data;
-using EngineeringUnitsCore.Data.Entities;
 using EngineeringUnitsCore.DLA.AccessorContracts;
 using EngineeringUnitsCore.DLA.Common;
 using Microsoft.EntityFrameworkCore;
@@ -11,26 +8,14 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace EngineeringUnitsCore.DLA.Accessors
 {
-    public class DimensionalAccessor : AccessorBase<DimensionalClass>, IDimensionalAccessor
+    public class DimensionalAccessor : AccessorBase<Data.Entities.DimensionalClass>, IDimensionalAccessor
     {
         public DimensionalAccessor(EngineeringUnitsContext context) : base(context) { }
-
-
-        public async Task<List<string>> GetDimensionalClasses()
-        {
-            var dClasses = await GetAll();
-            return dClasses.Select(dc => dc.Notation).ToList();
-        }
         
-        public async Task<List<string>> GetUnits(string dClass)
+        /*public new async Task<Data.Entities.DimensionalClass> Get(string id)
         {
-            var dimensionalClass = await Get(dClass);
-            return dimensionalClass.Units.Select(unit => unit.Id).ToList();
-        }
-
-        public new async Task<DimensionalClass> Get(string id)
-        {
-            if (Cache.TryGetValue<DimensionalClass>(id, out var dClass)) return dClass;
+            
+            if (Cache.TryGetValue<Data.Entities.DimensionalClass>(id, out var dClass)) return dClass;
             
             dClass = await Context
                 .DimensionalClasses
@@ -43,7 +28,6 @@ namespace EngineeringUnitsCore.DLA.Accessors
             Cache.Set(id, dClass, entryOptions);
 
             return dClass;
-
-        }
+        }*/
     }
 }

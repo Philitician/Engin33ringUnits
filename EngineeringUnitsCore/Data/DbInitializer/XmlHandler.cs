@@ -7,7 +7,7 @@ namespace EngineeringUnitsCore.Data.DbInitializer
 {
     public class XmlHandler
     {
-        private static readonly Dictionary<string, DimensionalClass> _dimensionalClasses = new Dictionary<string, DimensionalClass>();
+        private static readonly Dictionary<string, Entities.DimensionalClass> _dimensionalClasses = new Dictionary<string, Entities.DimensionalClass>();
         private static readonly Dictionary<string, QuantityType> _quantityTypes = new Dictionary<string, QuantityType>();
 
         public static List<UnitOfMeasure> GetUnits(string path)
@@ -123,7 +123,7 @@ namespace EngineeringUnitsCore.Data.DbInitializer
             var notation = dNode.InnerText;
 
             if (!_dimensionalClasses.ContainsKey(notation))
-                _dimensionalClasses.Add(notation, new DimensionalClass(notation));
+                _dimensionalClasses.Add(notation, new Entities.DimensionalClass(notation));
 
             return notation;
         }

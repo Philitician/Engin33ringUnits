@@ -1,5 +1,6 @@
 using System;
-using EngineeringUnitsCore;
+using ConversionGrpcService;
+using DimensionalClassGrpcService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,8 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpcClient<Conversion.ConversionClient>( options =>
+                options.Address = new Uri(Configuration.GetConnectionString("EngineeringUnits")));
+            services.AddGrpcClient<DimensionalClass.DimensionalClassClient>(options =>
                 options.Address = new Uri(Configuration.GetConnectionString("EngineeringUnits")));
             services.AddControllers();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "API", Version = "v1"}); });

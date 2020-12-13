@@ -18,6 +18,9 @@
       <Protobuf Include="..\EngineeringUnitsCore\Protos\conversion.proto" GrpcServices="Client">
         <Link>Protos\conversion.proto</Link>
       </Protobuf>
+      <Protobuf Include="..\EngineeringUnitsCore\Protos\dimensionalclass.proto" GrpcServices="Client">
+        <Link>Protos\dimensionalclass.proto</Link>
+      </Protobuf>
     </ItemGroup>
 
     <ItemGroup>

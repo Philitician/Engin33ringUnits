@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "EngineeringUnitsCore";
+option csharp_namespace = "ConversionGrpcService";
 
 package conversion;
 

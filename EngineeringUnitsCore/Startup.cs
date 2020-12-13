@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using EngineeringUnitsCore.Data;
 using EngineeringUnitsCore.DLA.AccessorContracts;
 using EngineeringUnitsCore.DLA.Accessors;
@@ -28,6 +29,7 @@ namespace EngineeringUnitsCore
         {
             services.AddScoped<IUnitOfMeasureAccessor, UnitOfMeasureAccessor>();
             services.AddScoped<ICustomaryUnitAccessor, CustomaryUnitAccessor>();
+            services.AddScoped<IDimensionalAccessor, DimensionalAccessor>();
             services.AddDbContext<EngineeringUnitsContext>(options =>
                 options.UseSqlite(_config.GetConnectionString("SqliteConnection")));
             services.AddGrpc();
@@ -46,7 +48,9 @@ namespace EngineeringUnitsCore
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<ConversionService>();
-
+                endpoints.MapGrpcService<DimensionalClassService>();
+                
+                
                 endpoints.MapGet("/",
                     async context =>
                     {

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option csharp_namespace = "DimensionalClassGrpcService";
+
+package dimensionalclass;
+import "google/protobuf/empty.proto";
+
+service DimensionalClass {
+    rpc GetAll (google.protobuf.Empty) returns (DimensionalClasses);
+    rpc GetUnitsByDimensionalClass (DimensionalClassNotation) returns (Units);
+}
+
+message DimensionalClasses {
+    repeated string notation = 1;
+}
+
+message DimensionalClassNotation {
+    string notation = 1;
+}
+
+message Units {
+    repeated Unit units = 1;
+}
+
+message Unit {
+    string id = 1;
+    string name = 2;
+}
