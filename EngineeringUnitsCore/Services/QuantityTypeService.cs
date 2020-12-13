@@ -30,15 +30,20 @@ namespace EngineeringUnitsCore.Services
 
         public override async Task<Units> GetUnitsByQuantityType(QuantityTypeNotation request, ServerCallContext context)
         {
-            var qt = await _quantityAccessor.GetUnits(request.Notation);
+            var qt = await _quantityAccessor
+                .Get(request.Notation,
+                    x => x.Notation == request.Notation,
+                    r => r.Include(
+                            x => x.UnitOfMeasureQuantityTypes)
+                        .ThenInclude(x => x.UnitOfMeasure));
             
             var units = new Units();
             
-            units.Units_.AddRange(qt.Select(x => 
+            units.Units_.AddRange(qt.First().UnitOfMeasureQuantityTypes.Select(x => 
                 new Unit
                 {
-                    Id = x.Id,
-                    Name = x.Name
+                    Id = x.UnitOfMeasureId,
+                    Name = x.UnitOfMeasure.Name
                 })
             );
 
