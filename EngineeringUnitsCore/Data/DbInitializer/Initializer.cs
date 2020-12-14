@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace EngineeringUnitsCore.Data.DbInitializer
+﻿namespace EngineeringUnitsCore.Data.DbInitializer
 {
     public static class Initializer
     {

@@ -1,6 +1,4 @@
-﻿using System;
-using AutoMapper;
-using EngineeringUnitsCore.Data;
+﻿using EngineeringUnitsCore.Data;
 using EngineeringUnitsCore.DLA.AccessorContracts;
 using EngineeringUnitsCore.DLA.Accessors;
 using EngineeringUnitsCore.Services;

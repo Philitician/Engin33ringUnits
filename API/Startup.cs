@@ -23,9 +23,9 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddGrpcClient<Conversion.ConversionClient>( options =>
+            services.AddGrpcClient<Conversion.ConversionClient>(options =>
                 options.Address = new Uri(Configuration.GetConnectionString("EngineeringUnits")));
-            services.AddGrpcClient<DimensionalClass.DimensionalClassClient>( options =>
+            services.AddGrpcClient<DimensionalClass.DimensionalClassClient>(options =>
                 options.Address = new Uri(Configuration.GetConnectionString("EngineeringUnits")));
             services.AddGrpcClient<QuantityType.QuantityTypeClient>(options =>
                 options.Address = new Uri(Configuration.GetConnectionString("EngineeringUnits")));
@@ -43,9 +43,10 @@ namespace API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 
             app.UseHttpsRedirection();
 
