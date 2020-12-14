@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Prometheus;
 using QuantityTypeGrpcService;
 
 namespace API
@@ -44,6 +45,22 @@ namespace API
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            // Http Context
+            var counter = Metrics.CreateCounter("api_path_counter", "Count request to the API",
+                new CounterConfiguration {LabelNames = new[] {"method", "endpoint"}});
+
+            app.Use((context, next) =>
+            {
+                // method: GET, POST etc.
+                // endpoint: Requested path
+                counter.WithLabels(context.Request.Method, context.Request.Path).Inc();
+                return next();
+            });
+            
+            app.UseMetricServer();
+
+            app.UseHttpMetrics();
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
