@@ -10,6 +10,19 @@ services:
       - 80:80
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - routing_net
+
+  prometheus:
+    image: quay.io/prometheus/prometheus:latest
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      - api
+    networks:
+      - prom_net
 
   api:
     image: ${DOCKER_REGISTRY-}api
@@ -18,6 +31,10 @@ services:
       dockerfile: API/Dockerfile
     expose:
       - 80
+    networks:
+      - prom_net
+      - routing_net
+      - inner_net
 
   engineeringunitscore:
     image: ${DOCKER_REGISTRY-}engineeringunitscore
@@ -28,3 +45,10 @@ services:
       - 80
     volumes:
       - ./EngineeringUnitsCore/Data/poscUnits22.xml:/app/Data/poscUnits22.xml
+    networks:
+      - inner_net
+
+networks:
+  prom_net:
+  routing_net:
+  inner_net:
