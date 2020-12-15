@@ -16,8 +16,9 @@ namespace EngineeringUnitsCore.DAL.Accessors
 
         public new async Task<CustomaryUnit> Get(string id)
         {
+            var key = "CustomaryUnit_" + id;
             // returns unit if cached
-            if (Cache.TryGetValue<CustomaryUnit>(id, out var unit)) return unit;
+            if (Cache.TryGetValue<CustomaryUnit>(key, out var unit)) return unit;
             
             // gets unit from db if not cached
             unit = await Context
@@ -38,7 +39,7 @@ namespace EngineeringUnitsCore.DAL.Accessors
             var entryOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
             
             // adds unit to cache
-            Cache.Set(id, unit, entryOptions);
+            Cache.Set(key, unit, entryOptions);
 
             return unit;
         }

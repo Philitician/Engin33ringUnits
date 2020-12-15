@@ -37,6 +37,8 @@ namespace EngineeringUnitsCore.Services
                     r => r.Include(
                         x => x.Units));
 
+            if (!dClass.Any())
+                throw new RpcException(new Status(StatusCode.NotFound, "The input is not a valid Dimensional Class"));
             
             var units = new Units();
             

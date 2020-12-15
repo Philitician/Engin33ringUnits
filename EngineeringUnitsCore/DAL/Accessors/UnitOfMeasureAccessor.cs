@@ -16,25 +16,27 @@ namespace EngineeringUnitsCore.DAL.Accessors
 
         public new async Task<UnitOfMeasure> Get(string id)
         {
+            var key = "UnitOfMeasure_" + id;
             // returns unit if cached
-            if (Cache.TryGetValue<UnitOfMeasure>(id, out var unit)) return unit;
+            if (Cache.TryGetValue<UnitOfMeasure>(key, out var unit)) return unit;
             
             // gets unit from db if not cached
             unit = await Context
-                .CustomaryUnits
-                .Include(u => u.ConversionToBaseUnit)
+                .UnitOfMeasures
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (unit == null)
             {
                 var unitByAlias = await GetByCondition(x => x.Name == id);
                 unit = unitByAlias.FirstOrDefault();
+                if (unit == null)
+                    return null;
             }
 
             var entryOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
             
             // adds unit to cache
-            Cache.Set(id, unit, entryOptions);
+            Cache.Set(key, unit, entryOptions);
 
             return unit;
         }

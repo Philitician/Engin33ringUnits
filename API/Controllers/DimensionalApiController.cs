@@ -18,7 +18,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/dimensional")]
-    public class DimensionalApiController
+    public class DimensionalApiController : ControllerBase
     {
         private readonly DimensionalClass.DimensionalClassClient _dimensionalClassClient;
         private readonly ILogger<DimensionalApiController> _logger;
@@ -28,7 +28,7 @@ namespace API.Controllers
             _dimensionalClassClient = dimensionalClassClient;
             _logger = logger;
         }
-
+        
         [HttpGet]
         public async Task<IEnumerable<string>> GetAll()
         {
@@ -37,18 +37,17 @@ namespace API.Controllers
         }
 
         [HttpGet("{*notation}")]
-        public async Task<IEnumerable<Unit>> GetUnitsByDimensionalClass(string notation)
+        public async Task<IActionResult> GetUnitsByDimensionalClass(string notation)
         {
             try
             {
                 Units units = await _dimensionalClassClient.GetUnitsByDimensionalClassAsync(new DimensionalClassNotation {Notation = notation});
-                return units.Units_;
+                return Ok(units.Units_);
             }
             catch (RpcException e)
             {
-                Console.WriteLine(e.Message);
                 _logger.LogError(e.Message);
-                throw;
+                return NotFound(e.Status.Detail);
             }
         }
     }

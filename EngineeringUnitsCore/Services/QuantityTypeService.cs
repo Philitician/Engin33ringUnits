@@ -37,6 +37,9 @@ namespace EngineeringUnitsCore.Services
                             x => x.UnitOfMeasureQuantityTypes)
                         .ThenInclude(x => x.UnitOfMeasure));
             
+            if(!qt.Any())
+                throw new RpcException(new Status(StatusCode.NotFound, "The input is not a valid Quantity Type"));
+            
             var units = new Units();
             
             units.Units_.AddRange(qt.First().UnitOfMeasureQuantityTypes.Select(x => 

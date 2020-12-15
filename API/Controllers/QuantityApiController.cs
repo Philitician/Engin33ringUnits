@@ -1,21 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using QuantityTypeGrpcService;
 
 namespace API.Controllers
 {
     [ApiController]
     [Route("api/quantity")]
-    public class QuantityApiController
+    public class QuantityApiController : ControllerBase
     {
         private readonly QuantityType.QuantityTypeClient _quantityTypeClient;
+        private readonly ILogger<QuantityApiController> _logger;
 
-        public QuantityApiController(QuantityType.QuantityTypeClient quantityTypeClient)
+        public QuantityApiController(QuantityType.QuantityTypeClient quantityTypeClient, ILogger<QuantityApiController> logger)
         {
             _quantityTypeClient = quantityTypeClient;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -26,13 +31,20 @@ namespace API.Controllers
         }
 
         [HttpGet("{notation}")]
-        public async Task<IEnumerable<Unit>> GetUnitByQuantityType(string notation)
+        public async Task<IActionResult> GetUnitByQuantityType(string notation)
         {
-            var units = await _quantityTypeClient
-                .GetUnitsByQuantityTypeAsync(new QuantityTypeNotation
-                    {Notation = notation});
+            try
+            {
+                var units = await _quantityTypeClient
+                    .GetUnitsByQuantityTypeAsync(new QuantityTypeNotation {Notation = notation});
 
-            return units.Units_;
+                return Ok(units.Units_);
+            }
+            catch (RpcException e)
+            {
+                _logger.LogError(e.Message);
+                return NotFound(e.Status.Detail);
+            }
         }
     }
 }

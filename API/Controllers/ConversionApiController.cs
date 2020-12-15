@@ -36,13 +36,11 @@ namespace API.Controllers
             }
             catch (ArgumentNullException e)
             {
-                Console.WriteLine(e.Message);
                 _logger.LogInformation(e.Message);
                 return BadRequest(e.Message);
             }
             catch (RpcException e)
             {
-                Console.WriteLine(e.Message);
                 _logger.LogInformation(e.Message);
                 return NotFound(e.Status.Detail);
             }
