@@ -13,11 +13,15 @@ services:
 
   api:
     image: philitician/engineeringunitsapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerDevelopment
     expose:
       - 80
 
   engineeringunitscore:
     image: philitician/engineeringunitscore
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerDevelopment
     expose:
       - 80
     volumes:
