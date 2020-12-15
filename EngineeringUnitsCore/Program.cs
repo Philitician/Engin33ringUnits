@@ -1,6 +1,7 @@
 using EngineeringUnitsCore.Data;
 using EngineeringUnitsCore.Data.DbInitializer;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -16,7 +17,7 @@ namespace EngineeringUnitsCore
             {
                 Initializer.TryInitialize(context);
             }
-            
+
             host.Run();
         }
 
@@ -24,6 +25,9 @@ namespace EngineeringUnitsCore
         // For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }

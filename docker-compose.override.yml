@@ -3,10 +3,16 @@ version: '3.8'
 services:
   api:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    volumes:
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ASPNETCORE_ENVIRONMENT=DockerDevelopment
+    build:
+      context: .
+      dockerfile: API/Dockerfile
+#    volumes:
+#      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   engineeringunitscore:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=DockerDevelopment
+    build:
+      context: .
+      dockerfile: EngineeringUnitsCore/Dockerfile

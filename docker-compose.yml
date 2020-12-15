@@ -12,18 +12,12 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
 
   api:
-    image: ${DOCKER_REGISTRY-}api
-    build:
-      context: .
-      dockerfile: API/Dockerfile
+    image: philitician/engineeringunitsapi
     expose:
       - 80
 
   engineeringunitscore:
-    image: ${DOCKER_REGISTRY-}engineeringunitscore
-    build:
-      context: .
-      dockerfile: EngineeringUnitsCore/Dockerfile
+    image: philitician/engineeringunitscore
     expose:
       - 80
     volumes:
