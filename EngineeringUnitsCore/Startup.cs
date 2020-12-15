@@ -1,6 +1,6 @@
-﻿using EngineeringUnitsCore.Data;
-using EngineeringUnitsCore.DLA.AccessorContracts;
-using EngineeringUnitsCore.DLA.Accessors;
+﻿using EngineeringUnitsCore.DAL.AccessorContracts;
+using EngineeringUnitsCore.DAL.Accessors;
+using EngineeringUnitsCore.Data;
 using EngineeringUnitsCore.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

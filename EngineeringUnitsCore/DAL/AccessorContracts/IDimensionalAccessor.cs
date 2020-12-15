@@ -1,6 +1,6 @@
 ﻿using EngineeringUnitsCore.Data.Entities;
 
-namespace EngineeringUnitsCore.DLA.AccessorContracts
+namespace EngineeringUnitsCore.DAL.AccessorContracts
 {
     public interface IDimensionalAccessor : IAccessorBase<DimensionalClass>
     {

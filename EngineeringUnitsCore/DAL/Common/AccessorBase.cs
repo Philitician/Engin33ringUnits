@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using EngineeringUnitsCore.DAL.AccessorContracts;
 using EngineeringUnitsCore.Data;
-using EngineeringUnitsCore.DLA.AccessorContracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace EngineeringUnitsCore.DLA.Common
+namespace EngineeringUnitsCore.DAL.Common
 {
     public abstract class AccessorBase<T> : DataAccess, IAccessorBase<T> where T : class
     {
@@ -35,24 +35,35 @@ namespace EngineeringUnitsCore.DLA.Common
         public async Task<T> Get(string id)
         {
             return await Context.Set<T>().FindAsync(id);
+            
         }
         
         public async Task<IQueryable<T>> Get(string id, Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
         {
             var key = typeof(T).Name + "_" + id;
-            if (Cache.TryGetValue<IQueryable<T>>(key, out var dClass)) return dClass;
+            if (Cache.TryGetValue<IQueryable<T>>(key, out var entity)) return entity;
             
-            dClass = Context.Set<T>().Where(predicate);
+            entity = Context.Set<T>().Where(predicate);
             
             if (include != null)
-                dClass = include(dClass);
+                entity = include(entity);
             
             var entryOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
             
             // adds unit to cache
-            Cache.Set(id, dClass, entryOptions);
+            Cache.Set(id, entity, entryOptions);
 
-            return dClass;
+            return entity;
+        }
+        
+        public async Task<IQueryable<T>> Get(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
+        {
+            var entity = Context.Set<T>().Where(predicate);
+            
+            if (include != null)
+                entity = include(entity);
+            
+            return entity;
         }
 
         public async Task<List<T>> GetByCondition(Expression<Func<T, bool>> expression)

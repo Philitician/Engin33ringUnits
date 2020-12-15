@@ -1,7 +1,7 @@
 ﻿using EngineeringUnitsCore.Data;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace EngineeringUnitsCore.DLA.Common
+namespace EngineeringUnitsCore.DAL.Common
 {
     public class DataAccess
     {

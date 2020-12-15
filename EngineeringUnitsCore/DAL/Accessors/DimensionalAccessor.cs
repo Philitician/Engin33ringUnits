@@ -1,8 +1,8 @@
-﻿using EngineeringUnitsCore.Data;
-using EngineeringUnitsCore.DLA.AccessorContracts;
-using EngineeringUnitsCore.DLA.Common;
+﻿using EngineeringUnitsCore.DAL.AccessorContracts;
+using EngineeringUnitsCore.DAL.Common;
+using EngineeringUnitsCore.Data;
 
-namespace EngineeringUnitsCore.DLA.Accessors
+namespace EngineeringUnitsCore.DAL.Accessors
 {
     public class DimensionalAccessor : AccessorBase<Data.Entities.DimensionalClass>, IDimensionalAccessor
     {

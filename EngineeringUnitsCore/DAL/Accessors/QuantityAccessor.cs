@@ -1,9 +1,9 @@
-﻿using EngineeringUnitsCore.Data;
+﻿using EngineeringUnitsCore.DAL.AccessorContracts;
+using EngineeringUnitsCore.DAL.Common;
+using EngineeringUnitsCore.Data;
 using EngineeringUnitsCore.Data.Entities;
-using EngineeringUnitsCore.DLA.AccessorContracts;
-using EngineeringUnitsCore.DLA.Common;
 
-namespace EngineeringUnitsCore.DLA.Accessors
+namespace EngineeringUnitsCore.DAL.Accessors
 {
     public class QuantityAccessor : AccessorBase<QuantityType>, IQuantityAccessor
     {

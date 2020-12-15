@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Query;
 
-namespace EngineeringUnitsCore.DLA.AccessorContracts
+namespace EngineeringUnitsCore.DAL.AccessorContracts
 {
     public interface IAccessorBase<T>
     {

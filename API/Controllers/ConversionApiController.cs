@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using ConversionGrpcService;
+using Grpc.Core;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
 {
@@ -9,23 +12,40 @@ namespace API.Controllers
     public class ConversionApiController : ControllerBase
     {
         private readonly Conversion.ConversionClient _conversionClient;
-        
-        public ConversionApiController(Conversion.ConversionClient conversionClient)
+        private readonly ILogger<ConversionApiController> _logger;
+
+        public ConversionApiController(Conversion.ConversionClient conversionClient, ILogger<ConversionApiController> logger)
         {
             _conversionClient = conversionClient;
+            _logger = logger;
         }
-
+        
         [HttpGet]
-        public async Task<ConversionResult> GetConversion(string from, double quantity, string to)
+        public async Task<IActionResult> GetConversion(string from, double quantity, string to)
         {
-            var conversionRequest = new ConversionRequest
+            try
             {
-                From = from,
-                Quantity = quantity,
-                To = to
-            };
-            var res = _conversionClient.GetConversion(conversionRequest);
-            return res;
+                var conversionRequest = new ConversionRequest
+                {
+                    From = from,
+                    Quantity = quantity,
+                    To = to
+                };
+                ConversionResult response = await _conversionClient.GetConversionAsync(conversionRequest);
+                return Ok(response);
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine(e.Message);
+                _logger.LogInformation(e.Message);
+                return BadRequest(e.Message);
+            }
+            catch (RpcException e)
+            {
+                Console.WriteLine(e.Message);
+                _logger.LogInformation(e.Message);
+                return NotFound(e.Status.Detail);
+            }
         }
     }
 }

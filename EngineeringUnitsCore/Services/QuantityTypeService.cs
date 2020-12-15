@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using EngineeringUnitsCore.DLA.AccessorContracts;
+using EngineeringUnitsCore.DAL.AccessorContracts;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
