@@ -18,24 +18,30 @@ namespace EngineeringUnitsCore.DAL.Common
         public async Task<IList<T>> GetAll()
         {
             var key = typeof(T).Name;
-            if (Cache.TryGetValue<IList<T>>(key, out var cachedEntry)) 
-                return cachedEntry;
+            if (Cache.TryGetValue<IList<T>>(key, out var entity)) 
+                return entity;
 
             Console.WriteLine($"{key} not cached");
-            cachedEntry = await Context.Set<T>().ToListAsync();
+            entity = await Context.Set<T>().ToListAsync();
             
             var entryOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
             
             // adds unit to cache
-            Cache.Set(key, cachedEntry, entryOptions);
+            Cache.Set(key, entity, entryOptions);
 
-            return cachedEntry;
+            return entity;
         }
 
         public async Task<T> Get(string id)
         {
-            return await Context.Set<T>().FindAsync(id);
+            var key = typeof(T).Name + "_Single_" + id;
+            if (Cache.TryGetValue<T>(key, out var entity)) return entity;
+            entity = await Context.Set<T>().FindAsync(id);
             
+            var entryOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
+
+            Cache.Set(key, entity, entryOptions);
+            return entity;
         }
         
         public async Task<IQueryable<T>> Get(string id, Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
