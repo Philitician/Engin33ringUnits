@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option csharp_namespace = "CustomaryUnitService";
+
+package customaryunit;
+import "google/protobuf/empty.proto";
+
+service CustomaryUnit{
+    rpc Get (UnitId) returns (Unit);
+    rpc Update(Unit) returns (google.protobuf.Empty);
+    rpc Delete(Unit) returns (google.protobuf.Empty);
+    rpc Create(Unit) returns (google.protobuf.Empty);
+}
+
+message Unit {
+    string id = 1;
+    string annotation = 2;
+    string name = 3;
+    string dimensionalclassId = 4;
+    repeated string quantitytypesId = 5;
+}
+
+message UnitId{
+    string id = 1;
+}

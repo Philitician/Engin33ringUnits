@@ -8,6 +8,15 @@ import "google/protobuf/empty.proto";
 service DimensionalClass {
     rpc GetAll (google.protobuf.Empty) returns (DimensionalClasses);
     rpc GetUnitsByDimensionalClass (DimensionalClassNotation) returns (Units);
+    rpc Get (DimensionalClassNotation) returns (SingleDimensionalClass);
+    rpc Update(SingleDimensionalClass) returns (google.protobuf.Empty);
+    rpc Delete(SingleDimensionalClass) returns (google.protobuf.Empty);
+    rpc Create(SingleDimensionalClass) returns (google.protobuf.Empty);
+}
+
+message SingleDimensionalClass {
+    string notation = 1;
+    Units units = 2;
 }
 
 message DimensionalClasses {

@@ -6,8 +6,17 @@ package quantitytype;
 import "google/protobuf/empty.proto";
 
 service QuantityType {
-    rpc GetAll (google.protobuf.Empty) returns (QuantityTypes);
-    rpc GetUnitsByQuantityType (QuantityTypeNotation) returns (Units);
+    rpc GetAll(google.protobuf.Empty) returns (QuantityTypes);
+    rpc GetUnitsByQuantityType(QuantityTypeNotation) returns (Units);
+    rpc Get(SingleQuantityType) returns (SingleQuantityType);
+    rpc Update(SingleQuantityType) returns (google.protobuf.Empty);
+    rpc Delete(SingleQuantityType) returns (google.protobuf.Empty);
+    rpc Create(SingleQuantityType) returns (google.protobuf.Empty);
+}
+
+message SingleQuantityType{
+    string notation = 1;
+    Units units = 2;
 }
 
 message QuantityTypes {

@@ -20,7 +20,7 @@ namespace EngineeringUnitsCore.Services
             _logger = logger;
             _dimensionalAccessor = dimensionalAccessor;
         }
-        
+
         public override async Task<DimensionalClasses> GetAll(Empty request, ServerCallContext context)
         {
             var dClassList = await _dimensionalAccessor.GetAll();
